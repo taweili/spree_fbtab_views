@@ -20,26 +20,26 @@ end
 module SpreeBase
   module InstanceMethods
     protected
-    MOBILE_USER_AGENTS = 'palm|blackberry|nokia|phone|midp|mobi|symbian|chtml|ericsson|minimo|' +
-                         'audiovox|motorola|samsung|telit|upg1|windows ce|ucweb|astel|plucker|' +
-                         'x320|x240|j2me|sgh|portable|sprint|docomo|kddi|softbank|android|mmp|' +
-                         'pdxgw|netfront|xiino|vodafone|portalmmm|sagem|mot-|sie-|ipod|up\\.b|' +
-                         'webos|amoi|novarra|cdm|alcatel|pocket|ipad|iphone|mobileexplorer|mobile'
     
-    def mobile_device?
-      if cookies[:mobile_param]
-        cookies[:mobile_param] == "1"
+    def fbtab?
+      if cookies[:fbtab_param]
+        cookies[:fbtab_param] == "1"
       else
-        request.user_agent.to_s.downcase =~ Regexp.new(MOBILE_USER_AGENTS)
+        if request.POST['signed_request']
+          cookies[:fbtab_param] = "1"
+          true
+        else
+          false
+        end
       end
     end
 
-    def prepare_for_mobile
-      cookies[:mobile_param] = params[:mobile] if params[:mobile]
+    def prepare_for_fbtab
+      cookies[:fbtab_param] = params[:fbtab] if params[:fbtab]
     end
     
-    def prepend_view_path_if_mobile
-      if mobile_device?
+    def prepend_view_path_if_fbtab
+      if fbtab?
         prepend_view_path File.join(File.dirname(__FILE__), '..', 'app', 'fbtab_views')
         prepend_view_path File.join(Rails.root, 'app', 'fbtab_views')
       end
@@ -51,9 +51,9 @@ module SpreeBase
     def included_with_fbtab_views(receiver)
       included_without_fbtab_views(receiver)
       
-      receiver.send :helper_method, 'mobile_device?'
-      receiver.send :before_filter, 'prepare_for_mobile'
-      receiver.send :before_filter, 'prepend_view_path_if_mobile'
+      receiver.send :helper_method, 'fbtab?'
+      receiver.send :before_filter, 'prepare_for_fbtab'
+      receiver.send :before_filter, 'prepend_view_path_if_fbtab'
     end
     
     alias_method_chain :included, :fbtab_views

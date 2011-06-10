@@ -1,0 +1,13 @@
+<% get_taxonomies.each do |taxonomy| %>
+<ul id="categories">
+	<li class="tl">
+		<%= link_to "#{t("shop_by_taxonomy", :taxonomy => taxonomy.name.singularize)}<span class='arr-dwn'></span>".html_safe , seo_url(taxonomy.root) %>
+		<ul class="sub">
+			<% taxonomy.root.children.each do |taxon| %>
+			<li<%== ' class="current"' if @taxon and ([@taxon] + @taxon.ancestors).include?(taxon) %>>
+			<%= link_to taxon.name, seo_url(taxon) %>
+			<% end %>
+		</ul>
+	</li>
+</ul>
+<% end %>
