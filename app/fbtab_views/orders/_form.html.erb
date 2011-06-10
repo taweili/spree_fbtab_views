@@ -1,18 +1,17 @@
 <%= render "shared/error_messages", :target => @order %>
-<table id="cart-detail" data-role="listview">
-  <thead>
-    <tr class="ui-bar-b">
-      <%= hook :cart_items_headers do %>
-        <th><%= t("item") %></th>
-        <th><%= t("price") %></th>
-        <th><%= t("qty") %></th>
-        <th><%= t("total") %></th>
-      <% end %>
-    </tr>
-  </thead>
-  <tbody id="line_items">
-    <%= order_form.fields_for :line_items do |item_form| %>
-      <%= render 'line_item', :variant => item_form.object.variant, :line_item => item_form.object, :item_form => item_form %>
-    <% end %>
-  </tbody>
+<table>
+	<thead>
+		<tr>
+			<th class="pic">Item</th>
+			<th class="desc"></th>
+			<th class="price">Price</th>
+			<th class="qty">Qty</th>
+			<th class="total">Total</th>
+			<th></th>
+		</tr>
+	</thead>
+
+	<%= order_form.fields_for :line_items do |item_form| %>
+	<%= render 'line_item', :variant => item_form.object.variant, :line_item => item_form.object, :item_form => item_form %>
+	<% end %>
 </table>

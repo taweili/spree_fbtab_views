@@ -1,0 +1,40 @@
+<script>
+$(function() {
+        $("#wrapper").addClass("shop login tab");
+})
+</script>
+
+<%= render "shared/error_messages", :target => @user %>
+<div class="left">
+	<h1>Log in as existing customer</h1>
+	
+	<%= form_for(:user, :url => user_session_path) do |f| %>
+		<label>
+			<span>Email</span><br/>
+      		<%= f.text_field('email', :class => 'title') %>
+		</label>	
+		
+		<label>
+			<span>Password</span><br/>
+	      <%= f.password_field 'password', :class => 'title' %>
+		</label>
+		
+		<input type="submit" class="submit" value="Log In"/><br/>
+		<%= link_to t("create_a_new_account"), signup_path %><br/>
+		<%= link_to t("forgot_password"), new_user_password_path %>
+	<% end %>
+	
+	<br class="clear"/>
+	<%= hook :login_extras %>
+</div>
+
+<div class="right">
+	<h1>Checkout as a guest</h1>
+	<%= form_for @order, :url => update_checkout_registration_path, :html => { :method => :put, :id => "checkout_form_registration"} do |f| %>
+	<label>
+		<span>Email</span>
+        <%= f.text_field :email, :class => 'title'  %>
+	</label>
+	<input type="submit" class="submit" value="Continue Checkout"/>
+    <% end %>
+</div>
