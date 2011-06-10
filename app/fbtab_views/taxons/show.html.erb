@@ -1,3 +1,9 @@
+<script>
+$(function() {
+        $("#wrapper").addClass("tab shop");
+})
+</script>
+
 <% if @taxon.children.present? %>
   <ul data-role="listview">
     <% @taxon.children.each do |taxon| %>

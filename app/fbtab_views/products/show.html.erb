@@ -1,31 +1,60 @@
-<div data-role="content">
-  <h1><%= @product.name %></h1>
-  <table>
-    <tr>
-      <td id="main-image">
-        <%= render 'image' %>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <%= hook :cart_form do %>
-          <div id="cart-form">
-            <%= render 'cart_form' %>
-          </div>
-        <% end %>    
-      </td>
-    </tr>
-    <tr>
-      <td colspan="2">
-        <div id="product-description">
-          <%= hook :product_description do %>
-            <%= product_description(@product) rescue t("product_has_no_description") %>
-          <% end %>
-          <%= hook :product_properties do %>
-            <%= render 'properties' %>
-          <% end %>
-        </div>
-      </td>
-    </tr>
-  </table>
+<script>
+$(function() {
+        $("#wrapper").addClass("shop product tab expanded");
+})
+</script>
+
+<div class="left">
+	<ul class="sharing">
+		<li class="fb">
+			<fb:like href="<%= product_url(@product, :only_path => false)%>" layout="button_count"></fb:like>
+		</li>
+		<li class="tw"><a href="http://twitter.com/share" class="twitter-share-button" data-count="horizontal">Tweet</a></li>
+	</ul>
+	<h2 class="prod-title">Mesop Basic Cardigan</h2>
+	
+    <%= hook :cart_form do %>
+      <div id="cart-form">
+        <%= render 'cart_form' %>
+      </div>
+    <% end %>	
+	<div class="cn-sns">
+		<!-- JiaThis Button BEGIN -->
+		<div id="ckepop">
+			<a href="http://www.jiathis.com/share/" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank">分享到：</a>
+			<a class="jiathis_button_qzone"></a>
+			<a class="jiathis_button_tsina"></a>
+			<a class="jiathis_button_kaixin001"></a>
+			<a class="jiathis_button_renren"></a>
+		</div>
+		<script type="text/javascript" src="http://v1.jiathis.com/code/jia.js" charset="utf-8"></script>
+		<!-- JiaThis Button END -->
+	</div>
+</div>
+
+<div class="right">
+	<%= render 'image' %>		
+</div>	
+
+<br class="clear"/>
+
+<div class="info">
+	<p>
+		<%= product_description(@product) rescue t("product_has_no_description") %>
+	</p>
+</div>
+<!-- 
+<div class="recc-items">
+	<h3>Recommended Items</h3>
+	<ul>
+		<li><a href=""><img src="http://s3.amazonaws.com/featha_development/assets/products/26/product/donny-multi.preview.jpg?1296215614"/></a></li>
+		<li><a href=""><img src="http://s3.amazonaws.com/featha_development/assets/products/26/product/donny-multi.preview.jpg?1296215614"/></a></li>
+		<li><a href=""><img src="http://s3.amazonaws.com/featha_development/assets/products/26/product/donny-multi.preview.jpg?1296215614"/></a></li>
+		<li><a href=""><img src="http://s3.amazonaws.com/featha_development/assets/products/26/product/donny-multi.preview.jpg?1296215614"/></a></li>
+	</ul>
+</div>
+-->
+
+<div class="block comments">
+	<fb:comments href="<%= product_url(@product, :only_path => false)%>" num_posts="2" width="500"></fb:comments>
 </div>
