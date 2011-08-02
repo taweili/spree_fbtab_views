@@ -39,7 +39,7 @@ module SpreeBase
     end
     
     def prepend_view_path_if_fbtab
-      if fbtab?
+      if request.POST['signed_request']
         prepend_view_path File.join(File.dirname(__FILE__), '..', 'app', 'fbtab_views')
         prepend_view_path File.join(Rails.root, 'app', 'fbtab_views')
       end
