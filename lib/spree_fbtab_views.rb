@@ -1,5 +1,6 @@
 require 'spree_core'
 require 'spree_fbtab_views_hooks'
+require 'pp'
 
 module SpreeFbtabViews
   class Engine < Rails::Engine
@@ -22,16 +23,22 @@ module SpreeBase
     protected
     
     def fbtab?
-      if cookies[:fbtab_param]
-        cookies[:fbtab_param] == "1"
+      if request.POST['signed_request']
+        cookies[:fbtab_param] = "1"
+        true
       else
-        if request.POST['signed_request']
-          cookies[:fbtab_param] = "1"
-          true
-        else
-          false
-        end
+        cookies[:fbtab_param] == "1"
       end
+      # if cookies[:fbtab_param]
+      #   cookies[:fbtab_param] == "1"
+      # else
+      #   if request.POST['signed_request']
+      #     cookies[:fbtab_param] = "1"
+      #     true
+      #   else
+      #     false
+      #   end
+      # end
     end
 
     def prepare_for_fbtab
@@ -39,7 +46,12 @@ module SpreeBase
     end
     
     def prepend_view_path_if_fbtab
-      if request.POST['signed_request']
+      pp "fbtab?"
+      pp fbtab?
+      pp "cookies[:fbtab_param]"
+      pp cookies[:fbtab_param]
+      
+      if fbtab?
         prepend_view_path File.join(File.dirname(__FILE__), '..', 'app', 'fbtab_views')
         prepend_view_path File.join(Rails.root, 'app', 'fbtab_views')
       end
